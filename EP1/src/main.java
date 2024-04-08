@@ -49,7 +49,10 @@ public class main {
         Control.setInterfaz(vista);
         Control.Comienzo();
 
+        Control.setColorRuta("rojo",1);
         Control.ruta(nodo0, nodo5);
+        Control.setColorRuta("azul",2);
+        Control.ruta(nodo9, nodo15);
 
     }
 }

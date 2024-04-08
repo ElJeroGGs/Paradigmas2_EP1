@@ -51,7 +51,6 @@ public class ControlPanelHIpercubo {
     int[] direccion = operacion.Direccion(Origen, tag);
     for(int i = 0; i<nodos.length; i++){
         if(Arrays.equals(nodos[i].getValor(), direccion)){
-        
             indice = i;
         }
     }

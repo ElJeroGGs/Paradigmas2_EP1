@@ -2,6 +2,9 @@ package control;
 
 import vista.InterfazPrincipal;
 import vista.PanelHipercubo;
+
+import java.awt.Color;
+
 import modelo.Matriz;
 import modelo.Nodo;
 
@@ -36,12 +39,12 @@ public class ControlPrincipal {
         this.controlpanel2 = control;
     }
 
-    public void setNodos1(Nodo[] nodos) {
-        this.nodos1 = nodos;
+    public void setNodos1(Nodo[] nodos1) {
+        this.nodos1 = nodos1;
     }
 
-    public void setNodos2(Nodo[] nodos) {
-        this.nodos2 = nodos;
+    public void setNodos2(Nodo[] nodos2) {
+        this.nodos2 = nodos2;
     }
 
     public void Comienzo() {
@@ -52,6 +55,7 @@ public class ControlPrincipal {
         this.setControlPanel2(control2);
 
         controlpanel1.setNodos(this.nodos1);
+       
         controlpanel2.setNodos(this.nodos2);
         // Me parece que para dos nodos, hara falta un segundo controlpanel
         this.hipercubo1.setControl(controlpanel1);
@@ -63,7 +67,21 @@ public class ControlPrincipal {
 
     public void ruta(Nodo Origen, Nodo Destino) {
         Matriz op = new Matriz();
-        op.setNodos(nodos1);
+        if(Origen.getValorDecimal() > 7 || Destino.getValorDecimal() > 7){
+            op.setNodos(nodos2);
+            int indice1 = op.getIndice(Origen);
+    
+            int indice2 = controlpanel2.direccion(Origen, Destino);
+    
+            if (nodos2[indice2].equals(Destino)) {
+                hipercubo2.pintaruta(indice1, indice2);
+            } else {
+                hipercubo2.pintaruta(indice1, indice2);
+                this.ruta(nodos2[indice2], Destino);
+            }
+            return;
+        }else{
+            op.setNodos(nodos1);
         int indice1 = op.getIndice(Origen);
 
         int indice2 = controlpanel1.direccion(Origen, Destino);
@@ -74,10 +92,32 @@ public class ControlPrincipal {
             hipercubo1.pintaruta(indice1, indice2);
             this.ruta(nodos1[indice2], Destino);
         }
-
-        
-
+        }
         
     }
+
+    public void setColorRuta(String color,int recorrido){
+        Color Col = null;
+        switch(color){
+            case("rojo"):
+            Col = Color.RED;
+            break;
+            case("azul"):
+            Col = Color.BLUE;
+            break;
+        
+        }
+        switch (recorrido){
+            case 1:
+            hipercubo1.cambiacolor(Col);
+            break;
+            case 2:
+            hipercubo2.cambiacolor(Col);
+            break;
+        }
+    
+        
+    }
+
 
 }

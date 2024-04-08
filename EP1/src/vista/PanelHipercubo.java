@@ -18,6 +18,8 @@ public class PanelHipercubo extends JPanel {
     private Nodo[] nodoscubo;
     private ControlPanelHIpercubo control;
     private List<Integer> recorrido1;
+    private List<Integer> recorrido2;
+    private Color ColorRuta;
 
     public void setNodos(Nodo[] nodos) {
         JLabel[] etiquetas;
@@ -78,7 +80,7 @@ public class PanelHipercubo extends JPanel {
                 int[] coordenadas2 = this.nodoscubo[indice].getCoordenadas();
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke(new BasicStroke(3)); // Set the thickness of the line
-                g2.setColor(Color.red);
+                g2.setColor(this.ColorRuta);
                 g2.drawLine(coordenadas1[0], coordenadas1[1], coordenadas2[0], coordenadas2[1]);
                
             }
@@ -92,7 +94,7 @@ public class PanelHipercubo extends JPanel {
                 int[] coordenadas2 = this.nodoscubo[indice].getCoordenadas();
                 Graphics2D g2 = (Graphics2D) g;
                 g2.setStroke(new BasicStroke(3)); // Set the thickness of the line
-                g2.setColor(Color.red);
+                g2.setColor(ColorRuta);
                 //Pinta los puntos
                  g2.fillOval(coordenadas1[0]-7, coordenadas1[1]-7, 15, 15);
                  g2.fillOval(coordenadas2[0]-7, coordenadas2[1]-7, 15, 15);
@@ -119,5 +121,10 @@ public class PanelHipercubo extends JPanel {
         
         this.revalidate();
         this.repaint();
+    }
+
+    public void cambiacolor(Color color) {
+        this.ColorRuta = color;
+
     }
 }
