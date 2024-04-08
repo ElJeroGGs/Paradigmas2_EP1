@@ -1,6 +1,9 @@
 package control;
 
 import modelo.Nodo;
+
+import java.util.Arrays;
+
 import modelo.Matriz;
 import vista.InterfazPrincipal;
 import vista.PanelHipercubo;
@@ -39,4 +42,19 @@ public class ControlPanelHIpercubo {
         
     }
 
+    public int direccion(Nodo Origen, Nodo Destino){
+    Matriz operacion = new Matriz();
+    int indice = -1;
+    //Calcula el tag
+    int[] tag = operacion.xor(Origen, Destino);
+    //Calcula la direccion que va a tomar para llegar al destino
+    int[] direccion = operacion.Direccion(Origen, tag);
+    for(int i = 0; i<nodos.length; i++){
+        if(Arrays.equals(nodos[i].getValor(), direccion)){
+        
+            indice = i;
+        }
+    }
+return indice;
+    }
 }

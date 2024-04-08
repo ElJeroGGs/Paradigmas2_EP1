@@ -12,11 +12,11 @@ public class Nodo {
     }
 
     public int[] getCoordenadas() {
-        return coordenadas;
+        return coordenadas.clone();
     }
 
     public int[] getValor() {
-        return valor;
+        return valor.clone();
     }
 
     public String toString() {
