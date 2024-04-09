@@ -65,4 +65,16 @@ int indice=-1;
     return indice;
 }
 
+public boolean PerteneceMismoCubo(Nodo nodo1, Nodo nodo2){
+    //Se supone que pertenecen al mismo cubo
+    boolean pertenece = true;
+    int index1 = this.getIndice(nodo1);
+    int index2 = this.getIndice(nodo2);
+    if(index1==-1 || index2==-1){
+    //Se descarta la suposicion
+        return false;
+    }
+    return pertenece;
+}
+
 }

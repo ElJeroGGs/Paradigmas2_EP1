@@ -2,7 +2,7 @@
 import vista.InterfazPrincipal;
 import vista.PanelHipercubo;
 import control.ControlPanelHIpercubo;
-import control.ControlPrincipal;
+import modelo.ControlPrincipal;
 import modelo.Nodo;
 
 public class main {
@@ -31,11 +31,13 @@ public class main {
         Nodo nodo15 = new Nodo(new int[] { 480, 100 }, new int[] { 1, 1, 1, 1 });
         // Creamos el primer panel
         PanelHipercubo HP1 = new PanelHipercubo();
+        HP1.setLado("izquierda");
         HP1.setNodos(Nodos1);
 
         // Creamos el segundo panel
         Nodo[] Nodos2 = { nodo8, nodo9, nodo10, nodo11, nodo12, nodo13, nodo14, nodo15 };
         PanelHipercubo HP2 = new PanelHipercubo();
+        HP2.setLado("derecha");
         HP2.setNodos(Nodos2);
 
         InterfazPrincipal vista = new InterfazPrincipal(HP1, HP2);
@@ -49,10 +51,11 @@ public class main {
         Control.setInterfaz(vista);
         Control.Comienzo();
 
-        Control.setColorRuta("rojo",1);
-        Control.ruta(nodo0, nodo5);
-        Control.setColorRuta("azul",2);
-        Control.ruta(nodo9, nodo15);
+        //Control.setColorRuta("rojo", 2);
+        //Control.ruta(nodo3, nodo14);
+        
+        Control.setColorRuta("azul",1);
+        Control.ruta(nodo15, nodo0);
 
     }
 }
