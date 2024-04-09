@@ -145,11 +145,9 @@ public class PanelHipercubo extends JPanel {
             QuadCurve2D q = new QuadCurve2D.Float(coordenadas1[0],coordenadas1[1],coordenadas1[0]+200,coordenadas1[1]-200,coordenadas1[0]+695,coordenadas1[1]);
         g2.draw(q);
         
-        System.out.println("puto codig2o");
         }else{
             QuadCurve2D q = new QuadCurve2D.Float(coordenadas1[0],coordenadas1[1],coordenadas1[0]-200,coordenadas1[1]-200,coordenadas1[0]-695,coordenadas1[1]);
             g2.draw(q);
-            System.out.println("puto codigo");
         
     }
         }
