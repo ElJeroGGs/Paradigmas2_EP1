@@ -54,34 +54,34 @@ public class main {
         Control.setInterfaz(vista);
         Control.Comienzo();
 
-        //Control.setColorRuta("rojo", 2);
-        //Control.ruta(nodo3, nodo14);
-        
-       // Control.setColorRuta("rojo",1);
-        //Control.ruta(nodo0, nodo15, 1);
-        //Control.setColorRuta("azul",2);
-        //Control.ruta(nodo14, nodo3, 2);
 
-        Conexion ruta1 = new Conexion(1);
-        ruta1.setColorRuta("azul");
+
+        Conexion ruta1 = new Conexion(1,"azul");
         Control.nuevaRuta(ruta1);
-        ruta1.ruta(nodo3,nodo9);
-        Conexion ruta2 = new Conexion(2);
-        ruta2.setColorRuta("rojo");
+        ruta1.setOrigen(nodo3);
+        ruta1.setDestino(nodo9);
+        
+
+        
+
+
+        Conexion ruta2 = new Conexion(2,"rojo");
         Control.nuevaRuta(ruta2);
-        ruta2.ruta(nodo5,nodo10);
-        Conexion ruta3 = new Conexion(3);
-        ruta3.setColorRuta("verde");
-        Control.nuevaRuta(ruta3);
-        ruta3.ruta(nodo6,nodo11);
-        Conexion ruta4 = new Conexion(4);
-        ruta4.setColorRuta("amarillo");
-        Control.nuevaRuta(ruta4);
-        ruta4.ruta(nodo7,nodo12);
-        Conexion ruta5 = new Conexion(5);
-        ruta5.setColorRuta("naranja");
-        Control.nuevaRuta(ruta5);
-        ruta5.ruta(nodo10,nodo1);
+        ruta2.setOrigen(nodo5);
+        ruta2.setDestino(nodo10);
+        //ruta2.ruta(nodo5,nodo10);
+        //Conexion ruta3 = new Conexion(3);
+        //ruta3.setColorRuta("verde");
+        //Control.nuevaRuta(ruta3);
+        //ruta3.ruta(nodo6,nodo11);
+        //Conexion ruta4 = new Conexion(4);
+        //ruta4.setColorRuta("amarillo");
+        //Control.nuevaRuta(ruta4);
+        //ruta4.ruta(nodo7,nodo12);
+        //Conexion ruta5 = new Conexion(5);
+        //ruta5.setColorRuta("naranja");
+        //Control.nuevaRuta(ruta5);
+        //ruta5.ruta(nodo10,nodo1);
 
        
     }

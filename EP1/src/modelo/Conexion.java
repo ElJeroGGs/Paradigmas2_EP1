@@ -7,20 +7,31 @@ import java.util.List;
 
 import control.ControlPrincipal;
 
-public class Conexion extends Thread{
+public class Conexion extends Thread implements Runnable{
 
     private Color color;
     private List<Integer> recorrido = new ArrayList<>();
-    private int SaltoInicio;
-    private int SaltoFinal;
+  
     private ControlPrincipal control;
     private Nodo[] nodos1;
     private Nodo[] nodos2;
+    private Nodo Origen;
+    private Nodo Destino;
     private int id;
     private String Cubo;
 
-    public Conexion(int id) {
+    public Conexion(int id, String string) {
         this.id = id;
+        this.setColorRuta(string);
+        start();
+    }
+
+    public void setOrigen(Nodo Origen){
+        this.Origen = Origen;
+    }
+
+    public void setDestino(Nodo Destino){
+        this.Destino = Destino;
     }
 
     public String getCubo(){
@@ -104,7 +115,17 @@ public class Conexion extends Thread{
     return indice;
         }
 
+    @Override
+    public void run(){
+
+        this.ruta(this.Origen, this.Destino);
+        
+    }
     public void ruta(Nodo Origen, Nodo Destino) {
+        try{
+            Thread.sleep(1000);}catch(Exception e){
+                System.out.println("Error en el hilo");
+            }
         Matriz op = new Matriz();
         // Indicamos el indice del nodo origen
         int indice1;
@@ -135,6 +156,8 @@ public class Conexion extends Thread{
             
                 if (nodos2[indice2].equals(Destino)) {
                 } else {
+                    //Aquí debemos ver si no hay otro hilo que quiera pasar por el mismo nodo
+                    //Si lo hay, entonces debemos esperar a que termine
                     this.ruta(nodos2[indice2], Destino);
                 }
                 
@@ -162,6 +185,7 @@ public class Conexion extends Thread{
                 this.recorrido.add(indice1);
                 this.recorrido.add(indice2); 
                 control.RutaMismoCubo(cubo);
+               
                 this.ruta(nodos1[indice2], Destino);
                 }
             }else{
@@ -169,6 +193,7 @@ public class Conexion extends Thread{
             // Creo que con un indice es suficiente (Origen)
             control.rutaSalto(indice1,indice2,"izquierda", this);
             this.Cubo = "izquierda";
+           
             this.ruta(nodos1[indice2], Destino);
             }
             
@@ -187,5 +212,7 @@ public class Conexion extends Thread{
     public int getIde(){
         return this.id;
     }
+
+
     
 }

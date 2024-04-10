@@ -39,7 +39,7 @@ public int[] xor(Nodo nodo1, Nodo nodo2){
 
 public int[] Direccion(Nodo nodo,int[] tag){
 int[] Destino = nodo.getValor();
-
+//Aqui hace el barrido de izquierda a derecha, pero hay que pensar en el caso de que debamos "saltarnos" el orden
 for (int i = 0; i<4; i++){ 
 
     if(tag[i]!=0){
