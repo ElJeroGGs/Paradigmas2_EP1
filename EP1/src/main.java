@@ -54,8 +54,10 @@ public class main {
         //Control.setColorRuta("rojo", 2);
         //Control.ruta(nodo3, nodo14);
         
-        Control.setColorRuta("azul",1);
-        Control.ruta(nodo15, nodo0);
+        Control.setColorRuta("rojo",1);
+        Control.ruta(nodo5, nodo15, 1);
+        Control.setColorRuta("azul",2);
+        Control.ruta(nodo0, nodo7, 2);
 
     }
 }

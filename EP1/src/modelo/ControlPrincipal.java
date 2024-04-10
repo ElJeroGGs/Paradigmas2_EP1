@@ -65,7 +65,7 @@ public class ControlPrincipal {
 
     }
 
-    public void ruta(Nodo Origen, Nodo Destino) {
+    public void ruta(Nodo Origen, Nodo Destino, int ruta) {
         // Funciona si ambos nodos pertenecen al mismo cubo
         Matriz op = new Matriz();
         // Indicamos el indice del nodo origen
@@ -88,17 +88,17 @@ public class ControlPrincipal {
             if (op.PerteneceMismoCubo(Origen, Destino)) {
                 // Pertenecen al mismo cubo
                 if (nodos2[indice2].equals(Destino)) {
-                    hipercubo2.pintaruta(indice1, indice2);
+                    hipercubo2.pintaruta(indice1, indice2, ruta);
 
                 } else {
-                    hipercubo2.pintaruta(indice1, indice2);
-                    this.ruta(nodos2[indice2], Destino);
+                    hipercubo2.pintaruta(indice1, indice2, ruta);
+                    this.ruta(nodos2[indice2], Destino, ruta);
                 }
             }else{
             // Se pinta un salto
             // Creo que con un indice es suficiente (Origen)
-            Interfaz.salto(indice1,indice2,"derecha");
-            this.ruta(nodos2[indice2], Destino);
+            Interfaz.salto(indice1,indice2,"derecha", ruta);
+            this.ruta(nodos2[indice2], Destino, ruta);
             }
             
 
@@ -109,17 +109,17 @@ public class ControlPrincipal {
             // Condicion en caso de que haya un "salto"
             if (op.PerteneceMismoCubo(Origen, Destino)) {
                 if (nodos1[indice2].equals(Destino)) {
-                    hipercubo1.pintaruta(indice1, indice2);
+                    hipercubo1.pintaruta(indice1, indice2, ruta);
                 } else {
-                    hipercubo1.pintaruta(indice1, indice2);
-                    this.ruta(nodos1[indice2], Destino);
+                    hipercubo1.pintaruta(indice1, indice2, ruta);
+                    this.ruta(nodos1[indice2], Destino, ruta);
 
                 }
             }else{
             // Se pinta un salto
             // Creo que con un indice es suficiente (Origen)
-            Interfaz.salto(indice1,indice2,"izquierda");
-            this.ruta(nodos1[indice2], Destino);
+            Interfaz.salto(indice1,indice2,"izquierda", ruta);
+            this.ruta(nodos1[indice2], Destino, ruta);
             }
             
 
@@ -140,13 +140,13 @@ public class ControlPrincipal {
         }
         switch (recorrido) {
             case 1:
-                hipercubo1.cambiacolor(Col);
-                hipercubo2.cambiacolor(Col);
+                hipercubo1.cambiacolor(Col,1);
+                hipercubo2.cambiacolor(Col,1);
 
                 break;
             case 2:
-                hipercubo2.cambiacolor(Col);
-                hipercubo1.cambiacolor(Col);
+            hipercubo2.cambiacolor(Col,2);
+            hipercubo1.cambiacolor(Col,2);
                 break;
         }
 

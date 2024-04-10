@@ -35,21 +35,21 @@ public class InterfazPrincipal extends JFrame {
     public void setPanel1(PanelHipercubo panel1) {
         this.panel1 = panel1;
     }
-    public void salto(int indice1,int indice2, String lado){
+    public void salto(int indice1,int indice2, String lado, int recorrido){
     System.out.println("Salto en el nodo: "+indice1);
-    //Aqui debo pintar un arco desde el nodo origen hasta su contraparte
+    //Aqui debo pintar un arco desde el nodo origen hasta su contraparte)
     switch(lado){
         case "derecha":
             System.out.println("Salto a la derecha");
-        panel1.dibujaSaltoInicio(indice1);
-        panel2.dibujaSaltoAterrizaje(indice2);
+        panel1.dibujaSaltoInicio(indice1, recorrido);
+        panel2.dibujaSaltoAterrizaje(indice2, recorrido);
         
         
             break;
         case "izquierda":
             System.out.println("Salto a la izquierda");
-            panel2.dibujaSaltoInicio(indice1);
-            panel1.dibujaSaltoAterrizaje(indice2);
+            panel2.dibujaSaltoInicio(indice1, recorrido);
+            panel1.dibujaSaltoAterrizaje(indice2, recorrido);
             
             break;
     }
