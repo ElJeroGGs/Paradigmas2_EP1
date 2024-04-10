@@ -1,11 +1,13 @@
-package modelo;
+package control;
 
 import vista.InterfazPrincipal;
 import vista.PanelHipercubo;
 
 import java.awt.Color;
 
-import control.ControlPanelHIpercubo;
+import modelo.Conexion;
+import modelo.Matriz;
+import modelo.Nodo;
 
 public class ControlPrincipal {
 
@@ -16,6 +18,7 @@ public class ControlPrincipal {
     private ControlPanelHIpercubo controlpanel2;
     Nodo[] nodos1;
     Nodo[] nodos2;
+    private Conexion hilo;
 
     public void setInterfaz(InterfazPrincipal interfaz) {
         Interfaz = interfaz;
@@ -46,23 +49,60 @@ public class ControlPrincipal {
         this.nodos2 = nodos2;
     }
 
+    public void nuevaRuta(Conexion hilo){
+
+        this.hilo = hilo;
+        hilo.setNodos1(nodos1);
+        hilo.setNodos2(nodos2);
+
+        hilo.setControl(this);
+        hipercubo1.addHilo(hilo);
+        hipercubo2.addHilo(hilo);
+        
+
+        
+    }
+
     public void Comienzo() {
 
         ControlPanelHIpercubo control1 = new ControlPanelHIpercubo();
         this.setControlPanel1(control1);
         this.Interfaz.setPanel1(hipercubo1);
+
         ControlPanelHIpercubo control2 = new ControlPanelHIpercubo();
         this.setControlPanel2(control2);
         this.Interfaz.setPanel2(hipercubo2);
-        controlpanel1.setNodos(this.nodos1);
 
+        controlpanel1.setNodos(this.nodos1);
         controlpanel2.setNodos(this.nodos2);
-        // Me parece que para dos nodos, hara falta un segundo controlpanel
+
         this.hipercubo1.setControl(controlpanel1);
         this.hipercubo2.setControl(controlpanel2);
 
         this.Interfaz.setVisible(true);
 
+    }
+
+    public void RutaMismoCubo(int indice1, int indice2, int cubo, int id) {
+        switch (cubo) {
+            case 1:
+                hipercubo1.pintaruta(indice1, indice2, 1);
+                break;
+            case 2:
+                hipercubo2.pintaruta(indice1, indice2, 2);
+                break;
+        }
+    }
+
+    public void rutaSalto(int indice1, int indice2, String lado, Conexion Hilo) {
+        switch (lado) {
+            case "derecha":
+                Interfaz.salto(indice1, indice2, "derecha", Hilo);
+                break;
+            case "izquierda":
+                Interfaz.salto(indice1, indice2, "izquierda", Hilo);
+                break;
+        }
     }
 
     public void ruta(Nodo Origen, Nodo Destino, int ruta) {
@@ -97,7 +137,7 @@ public class ControlPrincipal {
             }else{
             // Se pinta un salto
             // Creo que con un indice es suficiente (Origen)
-            Interfaz.salto(indice1,indice2,"derecha", ruta);
+            //Interfaz.salto(indice1,indice2,"derecha", ruta);
             this.ruta(nodos2[indice2], Destino, ruta);
             }
             
@@ -118,7 +158,7 @@ public class ControlPrincipal {
             }else{
             // Se pinta un salto
             // Creo que con un indice es suficiente (Origen)
-            Interfaz.salto(indice1,indice2,"izquierda", ruta);
+            //Interfaz.salto(indice1,indice2,"izquierda", ruta);
             this.ruta(nodos1[indice2], Destino, ruta);
             }
             
@@ -127,31 +167,7 @@ public class ControlPrincipal {
 
     }
 
-    public void setColorRuta(String color, int recorrido) {
-        Color Col = null;
-        switch (color) {
-            case ("rojo"):
-                Col = Color.RED;
-                break;
-            case ("azul"):
-                Col = Color.BLUE;
-                break;
-
-        }
-        switch (recorrido) {
-            case 1:
-                hipercubo1.cambiacolor(Col,1);
-                hipercubo2.cambiacolor(Col,1);
-
-                break;
-            case 2:
-            hipercubo2.cambiacolor(Col,2);
-            hipercubo1.cambiacolor(Col,2);
-                break;
-        }
-
-    }
-//Este metodo creo que sobra
+    
     public void setLado(String lado, int hipercubo){
 
         switch (hipercubo) {

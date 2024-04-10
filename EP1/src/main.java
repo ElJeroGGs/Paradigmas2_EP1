@@ -2,7 +2,8 @@
 import vista.InterfazPrincipal;
 import vista.PanelHipercubo;
 import control.ControlPanelHIpercubo;
-import modelo.ControlPrincipal;
+import control.ControlPrincipal;
+import modelo.Conexion;
 import modelo.Nodo;
 
 public class main {
@@ -32,12 +33,14 @@ public class main {
         // Creamos el primer panel
         PanelHipercubo HP1 = new PanelHipercubo();
         HP1.setLado("izquierda");
+        HP1.setId(1);
         HP1.setNodos(Nodos1);
 
         // Creamos el segundo panel
         Nodo[] Nodos2 = { nodo8, nodo9, nodo10, nodo11, nodo12, nodo13, nodo14, nodo15 };
         PanelHipercubo HP2 = new PanelHipercubo();
         HP2.setLado("derecha");
+        HP2.setId(2);
         HP2.setNodos(Nodos2);
 
         InterfazPrincipal vista = new InterfazPrincipal(HP1, HP2);
@@ -54,10 +57,20 @@ public class main {
         //Control.setColorRuta("rojo", 2);
         //Control.ruta(nodo3, nodo14);
         
-        Control.setColorRuta("rojo",1);
-        Control.ruta(nodo5, nodo15, 1);
-        Control.setColorRuta("azul",2);
-        Control.ruta(nodo0, nodo7, 2);
+       // Control.setColorRuta("rojo",1);
+        //Control.ruta(nodo0, nodo15, 1);
+        //Control.setColorRuta("azul",2);
+        //Control.ruta(nodo14, nodo3, 2);
 
+        Conexion ruta1 = new Conexion(1);
+        ruta1.setColorRuta("azul");
+        Control.nuevaRuta(ruta1);
+        ruta1.ruta(nodo3,nodo9);
+        Conexion ruta2 = new Conexion(2);
+        ruta1.setColorRuta("rojo");
+        Control.nuevaRuta(ruta1);
+        ruta1.ruta(nodo5,nodo10);
+
+       
     }
 }
