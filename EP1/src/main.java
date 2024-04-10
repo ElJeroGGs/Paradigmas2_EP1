@@ -67,9 +67,21 @@ public class main {
         Control.nuevaRuta(ruta1);
         ruta1.ruta(nodo3,nodo9);
         Conexion ruta2 = new Conexion(2);
-        ruta1.setColorRuta("rojo");
-        Control.nuevaRuta(ruta1);
-        ruta1.ruta(nodo5,nodo10);
+        ruta2.setColorRuta("rojo");
+        Control.nuevaRuta(ruta2);
+        ruta2.ruta(nodo5,nodo10);
+        Conexion ruta3 = new Conexion(3);
+        ruta3.setColorRuta("verde");
+        Control.nuevaRuta(ruta3);
+        ruta3.ruta(nodo6,nodo11);
+        Conexion ruta4 = new Conexion(4);
+        ruta4.setColorRuta("amarillo");
+        Control.nuevaRuta(ruta4);
+        ruta4.ruta(nodo7,nodo12);
+        Conexion ruta5 = new Conexion(5);
+        ruta5.setColorRuta("naranja");
+        Control.nuevaRuta(ruta5);
+        ruta5.ruta(nodo10,nodo1);
 
        
     }

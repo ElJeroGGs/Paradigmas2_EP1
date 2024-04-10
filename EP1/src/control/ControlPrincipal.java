@@ -83,13 +83,13 @@ public class ControlPrincipal {
 
     }
 
-    public void RutaMismoCubo(int indice1, int indice2, int cubo, int id) {
+    public void RutaMismoCubo( int cubo) {
         switch (cubo) {
             case 1:
-                hipercubo1.pintaruta(indice1, indice2, 1);
-                break;
+                hipercubo1.pintaruta();
+                
             case 2:
-                hipercubo2.pintaruta(indice1, indice2, 2);
+                hipercubo2.pintaruta();
                 break;
         }
     }
@@ -128,10 +128,10 @@ public class ControlPrincipal {
             if (op.PerteneceMismoCubo(Origen, Destino)) {
                 // Pertenecen al mismo cubo
                 if (nodos2[indice2].equals(Destino)) {
-                    hipercubo2.pintaruta(indice1, indice2, ruta);
+                    hipercubo2.pintaruta();
 
                 } else {
-                    hipercubo2.pintaruta(indice1, indice2, ruta);
+                    hipercubo2.pintaruta();
                     this.ruta(nodos2[indice2], Destino, ruta);
                 }
             }else{
@@ -149,9 +149,9 @@ public class ControlPrincipal {
             // Condicion en caso de que haya un "salto"
             if (op.PerteneceMismoCubo(Origen, Destino)) {
                 if (nodos1[indice2].equals(Destino)) {
-                    hipercubo1.pintaruta(indice1, indice2, ruta);
+                    hipercubo1.pintaruta();
                 } else {
-                    hipercubo1.pintaruta(indice1, indice2, ruta);
+                    hipercubo1.pintaruta();
                     this.ruta(nodos1[indice2], Destino, ruta);
 
                 }

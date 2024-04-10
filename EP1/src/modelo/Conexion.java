@@ -47,6 +47,24 @@ public class Conexion extends Thread{
             case ("azul"):
             this.color = Color.BLUE;
                 break;
+            case ("verde"):
+            this.color = Color.GREEN;
+                break;
+            case ("amarillo"):
+            this.color = Color.YELLOW;
+                break;
+            case ("naranja"):
+            this.color = Color.ORANGE;
+                break;
+            case ("rosa"):
+            this.color = Color.PINK;
+                break;
+            case ("morado"):
+            this.color = Color.MAGENTA;
+                break;
+            case ("gris"):
+            this.color = Color.GRAY;
+                break;
         }
 
         }
@@ -112,7 +130,7 @@ public class Conexion extends Thread{
 
                 this.recorrido.add(indice1);
                 this.recorrido.add(indice2);    
-                control.RutaMismoCubo(indice1, indice2,cubo,this.id);
+                control.RutaMismoCubo(cubo);
                 
             
                 if (nodos2[indice2].equals(Destino)) {
@@ -139,11 +157,11 @@ public class Conexion extends Thread{
                 if (nodos1[indice2].equals(Destino)) {
                 this.recorrido.add(indice1);
                 this.recorrido.add(indice2);   
-                control.RutaMismoCubo(indice1, indice2,cubo,this.id);
+                control.RutaMismoCubo(cubo);
                 } else {
                 this.recorrido.add(indice1);
                 this.recorrido.add(indice2); 
-                control.RutaMismoCubo(indice1, indice2,cubo,this.id);
+                control.RutaMismoCubo(cubo);
                 this.ruta(nodos1[indice2], Destino);
                 }
             }else{

@@ -195,45 +195,7 @@ public class PanelHipercubo extends JPanel {
 
     }
 
-    public void pintaruta(int indice1, int indice2, int recorrido) {
-switch (recorrido) {
-    case 1:
-    if (this.recorrido1 == null) {
-        recorrido1 = new ArrayList<>();
-    }
-    if (this.recorrido1.isEmpty()) {
-        this.recorrido1.add(indice1);
-        this.recorrido1.add(indice2);
-    } else {
-        if (this.recorrido1.get(recorrido1.size() - 1).equals(indice1)) {
-            this.recorrido1.add(indice2);
-        } else {
-            this.recorrido1.add(indice1);
-            this.recorrido1.add(indice2);
-
-        }
-    }
-        break;
-
-    case 2:
-    if (this.recorrido2 == null) {
-        recorrido2 = new ArrayList<>();
-    }
-    if (this.recorrido2.isEmpty()) {
-        this.recorrido2.add(indice1);
-        this.recorrido2.add(indice2);
-    } else {
-        if (this.recorrido2.get(recorrido2.size() - 1).equals(indice1)) {
-            this.recorrido2.add(indice2);
-        } else {
-            this.recorrido2.add(indice1);
-            this.recorrido2.add(indice2);
-
-        }
-    }
-        break;
-}
-        
+    public void pintaruta() {
         this.revalidate();
         this.repaint();
     }
