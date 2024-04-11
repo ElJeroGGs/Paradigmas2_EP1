@@ -68,7 +68,6 @@ public class Conexion extends Thread implements Runnable {
         } else {
             this.recorrido.removeFirst();
         }
-        
 
         if (fin == true) {
             control.renovar();
@@ -78,7 +77,7 @@ public class Conexion extends Thread implements Runnable {
                 } catch (Exception e) {
                 }
                 this.borraRecorrido();
-               
+
             }
         }
         control.renovar();
@@ -121,15 +120,14 @@ public class Conexion extends Thread implements Runnable {
         if (this.recorrido == null) {
             recorrido = new ArrayList<>();
         }
-        if (this.recorrido.isEmpty()) {
+        if (this.recorrido.isEmpty() && this.fin == false) {
             this.recorrido.add(indice1);
             this.recorrido.add(indice2);
         } else {
-            if (this.recorrido.get(recorrido.size() - 1).equals(indice1)) {
+            if (this.recorrido.get(recorrido.size() - 1).equals(indice1) && this.fin == false) {
                 this.recorrido.add(indice2);
             } else {
                 this.recorrido.add(indice1);
-                this.recorrido.add(indice2);
 
             }
         }
@@ -218,7 +216,6 @@ public class Conexion extends Thread implements Runnable {
             this.Cubo = "derecha";
             op.setNodos(nodos2);
             int indice2 = direccion(Origen, Destino, op);
-            
 
             while (nodos2[indice2].isEnUso()) {
                 try {
@@ -238,10 +235,10 @@ public class Conexion extends Thread implements Runnable {
                 control.RutaMismoCubo(cubo);
 
                 if (nodos2[indice2].equals(Destino)) {
-                    this.setRuta(indice1, indice2);
                     control.RutaMismoCubo(cubo);
                     this.fin = true;
-                    if(this.recorrido.isEmpty()==false){
+
+                    if (this.recorrido.isEmpty() == false) {
                         this.ruta(nodos2[indice2], Destino);
                     }
                 } else {
@@ -273,7 +270,6 @@ public class Conexion extends Thread implements Runnable {
             this.Cubo = "izquierda";
             op.setNodos(nodos1);
             int indice2 = direccion(Origen, Destino, op);
-            //this.nodos1[indice2].setEnUso(false);
 
             while (nodos1[indice2].isEnUso()) {
                 try {
@@ -285,19 +281,20 @@ public class Conexion extends Thread implements Runnable {
             nodos1[indice2].setEnUso(true);
             // Condicion en caso de que haya un "salto"
             if (op.PerteneceMismoCubo(Origen, Destino)) {
+
                 int cubo = 1;
+                control.RutaMismoCubo(cubo);
+                this.setRuta(indice1, indice2);
                 if (nodos1[indice2].equals(Destino)) {
-                    this.setRuta(indice1, indice2);
-                    control.RutaMismoCubo(cubo);
+
                     this.fin = true;
-                    if(this.recorrido.isEmpty()==false){
+                    if (this.recorrido.isEmpty() == false) {
                         this.ruta(nodos1[indice2], Destino);
                     }
-                    
+
                 } else {
                     this.setRuta(indice1, indice2);
                     control.RutaMismoCubo(cubo);
-
                     this.nodos1[indice2].setEnUso(false);
                     this.ruta(nodos1[indice2], Destino);
 
