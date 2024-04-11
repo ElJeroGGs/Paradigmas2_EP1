@@ -59,16 +59,14 @@ public class main {
         Conexion ruta1 = new Conexion(1,"azul");
         Control.nuevaRuta(ruta1);
         ruta1.setOrigen(nodo3);
-        ruta1.setDestino(nodo9);
-        
+        ruta1.setDestino(nodo15);
 
-        
+        //Conexion ruta2 = new Conexion(2,"rojo");
+        //Control.nuevaRuta(ruta2);
+        //ruta2.setOrigen(nodo5);
+        //ruta2.setDestino(nodo10);
 
 
-        Conexion ruta2 = new Conexion(2,"rojo");
-        Control.nuevaRuta(ruta2);
-        ruta2.setOrigen(nodo5);
-        ruta2.setDestino(nodo10);
         //ruta2.ruta(nodo5,nodo10);
         //Conexion ruta3 = new Conexion(3);
         //ruta3.setColorRuta("verde");

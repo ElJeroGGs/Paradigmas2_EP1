@@ -196,6 +196,7 @@ public class PanelHipercubo extends JPanel {
     }
 
     public void pintaruta() {
+        
         this.revalidate();
         this.repaint();
     }

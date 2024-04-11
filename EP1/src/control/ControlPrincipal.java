@@ -180,4 +180,10 @@ public class ControlPrincipal {
         }
     }
 
+    public void renovar(){
+
+        this.hipercubo1.pintaruta();
+        this.hipercubo2.pintaruta();
+    }
+
 }

@@ -20,6 +20,7 @@ public class Conexion extends Thread implements Runnable {
     private Nodo Destino;
     private int id;
     private String Cubo;
+    private int contador=0;
 
     public Conexion(int id, String string) {
         this.id = id;
@@ -49,6 +50,17 @@ public class Conexion extends Thread implements Runnable {
 
     public void setNodos2(Nodo[] nodos2) {
         this.nodos2 = nodos2;
+    }
+
+    public void borraRecorrido() {
+        System.out.println("se borro el objeto " + recorrido.getFirst().toString());
+        if(contador>2){
+            this.recorrido.clear();
+        }
+        contador=0;
+
+        control.renovar();
+
     }
 
     public void setColorRuta(String color) {
@@ -128,6 +140,7 @@ public class Conexion extends Thread implements Runnable {
 
     public void ruta(Nodo Origen, Nodo Destino) {
 
+        contador++;
         while (this.nodos1 == null || this.nodos2 == null) {
             try {
                 Thread.onSpinWait();
@@ -148,7 +161,7 @@ public class Conexion extends Thread implements Runnable {
         if (Origen.getValorDecimal() > 7) {
             op.setNodos(nodos2);
             indice1 = op.getIndice(Origen);
-            
+
             while (nodos2[indice1].isEnUso()) {
                 try {
                     Thread.onSpinWait();
@@ -160,7 +173,7 @@ public class Conexion extends Thread implements Runnable {
         } else {
             op.setNodos(nodos1);
             indice1 = op.getIndice(Origen);
-            
+
             while (nodos1[indice1].isEnUso()) {
                 try {
                     Thread.onSpinWait();
@@ -177,7 +190,7 @@ public class Conexion extends Thread implements Runnable {
             this.Cubo = "derecha";
             op.setNodos(nodos2);
             int indice2 = direccion(Origen, Destino, op);
-            
+
             while (nodos2[indice2].isEnUso()) {
                 try {
                     Thread.onSpinWait();
@@ -192,8 +205,7 @@ public class Conexion extends Thread implements Runnable {
                 // Pertenecen al mismo cubo 2
                 int cubo = 2;
 
-                this.recorrido.add(indice1);
-                this.recorrido.add(indice2);
+                this.setRuta(indice1, indice2);
                 control.RutaMismoCubo(cubo);
 
                 if (nodos2[indice2].equals(Destino)) {
@@ -201,14 +213,20 @@ public class Conexion extends Thread implements Runnable {
                     // Aquí debemos ver si no hay otro hilo que quiera pasar por el mismo nodo
 
                     // Si lo hay, entonces debemos esperar a que termine
+                    this.nodos2[indice2].setEnUso(false);
                     this.ruta(nodos2[indice2], Destino);
+                    this.borraRecorrido();
+
                 }
 
             } else {
                 // Se pinta un salto
                 // Creo que con un indice es suficiente (Origen)
                 control.rutaSalto(indice1, indice2, "derecha", this);
+
+                this.nodos2[indice2].setEnUso(false);
                 this.ruta(nodos2[indice2], Destino);
+                this.borraRecorrido();
                 this.Cubo = "derecha";
             }
 
@@ -216,7 +234,7 @@ public class Conexion extends Thread implements Runnable {
             this.Cubo = "izquierda";
             op.setNodos(nodos1);
             int indice2 = direccion(Origen, Destino, op);
-           
+
             while (nodos1[indice2].isEnUso()) {
                 try {
                     Thread.onSpinWait();
@@ -229,15 +247,16 @@ public class Conexion extends Thread implements Runnable {
             if (op.PerteneceMismoCubo(Origen, Destino)) {
                 int cubo = 1;
                 if (nodos1[indice2].equals(Destino)) {
-                    this.recorrido.add(indice1);
-                    this.recorrido.add(indice2);
+                    this.setRuta(indice1, indice2);
                     control.RutaMismoCubo(cubo);
                 } else {
-                    this.recorrido.add(indice1);
-                    this.recorrido.add(indice2);
+                    this.setRuta(indice1, indice2);
                     control.RutaMismoCubo(cubo);
 
+                    this.nodos1[indice2].setEnUso(false);
                     this.ruta(nodos1[indice2], Destino);
+                    this.borraRecorrido();
+
                 }
             } else {
                 // Se pinta un salto
@@ -245,7 +264,10 @@ public class Conexion extends Thread implements Runnable {
                 control.rutaSalto(indice1, indice2, "izquierda", this);
                 this.Cubo = "izquierda";
 
+                this.nodos1[indice2].setEnUso(false);
                 this.ruta(nodos1[indice2], Destino);
+                this.borraRecorrido();
+
             }
 
         }
