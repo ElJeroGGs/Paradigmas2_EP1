@@ -54,6 +54,7 @@ public class ControlPanelHIpercubo {
             indice = i;
         }
     }
+    this.nodos[indice].setEnUso(true);
 return indice;
     }
 }

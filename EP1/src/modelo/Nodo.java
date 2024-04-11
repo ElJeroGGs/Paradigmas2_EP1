@@ -4,11 +4,20 @@ public class Nodo {
 
     private int[] coordenadas;
     private int[] valor;
+    private boolean enUso = false;
 
     public Nodo(int[] coordenadas, int[] valor) {
 
         this.coordenadas = coordenadas;
         this.valor = valor;
+    }
+
+    public void setEnUso(boolean enUso) {
+        this.enUso = enUso;
+    }
+
+    public boolean isEnUso() {
+        return enUso;
     }
 
     public int[] getCoordenadas() {
