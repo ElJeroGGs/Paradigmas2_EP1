@@ -242,6 +242,25 @@ public class PanelHipercubo extends JPanel {
         hilos.add(hilo);
     }
 
+    
+
+
+
+    public void BorraSaltoInicio(int indice1, Color col) {
+
+        Salto saltito = new Salto(indice1, col);
+
+        this.SaltosInicio.removeIf(salto -> salto.getIndice() == indice1 );
+    }
+
+
+
+    public void BorraSaltoAterrizaje(int indice2, Color col) {
+        Salto saltito = new Salto(indice2, col);
+
+        this.SaltosAterrizaje.removeIf(salto -> salto.getIndice() == indice2 );
+    }
+
 }
 
 

@@ -20,7 +20,12 @@ public class Conexion extends Thread implements Runnable {
     private Nodo Destino;
     private int id;
     private String Cubo;
-    private int contador=0;
+    private int contador = 0;
+    private boolean HaySalto = false;
+    private String LadoSalto;
+    private int indexSaltoInicio;
+    private int indexSaltoFinal;
+    private boolean fin = false;
 
     public Conexion(int id, String string) {
         this.id = id;
@@ -53,12 +58,32 @@ public class Conexion extends Thread implements Runnable {
     }
 
     public void borraRecorrido() {
-        System.out.println("se borro el objeto " + recorrido.getFirst().toString());
-        if(contador>2){
-            this.recorrido.clear();
-        }
-        contador=0;
 
+        if (HaySalto == true) {
+            int indice1 = this.indexSaltoInicio;
+            int indice2 = this.indexSaltoFinal;
+            String lado = this.LadoSalto;
+            this.borraSalto(indice1, indice2, lado, this);
+            HaySalto = false;
+        } else {
+            this.recorrido.removeFirst();
+
+        }
+        
+
+        if (fin == true) {
+
+            try {
+                Thread.sleep(1000);
+            } catch (Exception e) {
+            }
+
+            while (this.recorrido.isEmpty() == false) {
+                this.borraRecorrido();
+                control.renovar();
+            }
+
+        }
         control.renovar();
 
     }
@@ -141,6 +166,11 @@ public class Conexion extends Thread implements Runnable {
     public void ruta(Nodo Origen, Nodo Destino) {
 
         contador++;
+
+        if (contador > 2) {
+            this.borraRecorrido();
+        }
+
         while (this.nodos1 == null || this.nodos2 == null) {
             try {
                 Thread.onSpinWait();
@@ -154,6 +184,7 @@ public class Conexion extends Thread implements Runnable {
         } catch (Exception e) {
             System.out.println("Error en el hilo");
         }
+
         Matriz op = new Matriz();
         // Indicamos el indice del nodo origen
         int indice1;
@@ -169,7 +200,7 @@ public class Conexion extends Thread implements Runnable {
                 } catch (Exception e) {
                 }
             }
-            nodos1[indice1].setEnUso(true);
+            nodos2[indice1].setEnUso(true);
         } else {
             op.setNodos(nodos1);
             indice1 = op.getIndice(Origen);
@@ -190,6 +221,7 @@ public class Conexion extends Thread implements Runnable {
             this.Cubo = "derecha";
             op.setNodos(nodos2);
             int indice2 = direccion(Origen, Destino, op);
+            
 
             while (nodos2[indice2].isEnUso()) {
                 try {
@@ -209,13 +241,18 @@ public class Conexion extends Thread implements Runnable {
                 control.RutaMismoCubo(cubo);
 
                 if (nodos2[indice2].equals(Destino)) {
+                    this.setRuta(indice1, indice2);
+                    control.RutaMismoCubo(cubo);
+                    this.fin = true;
+                    if(this.recorrido.isEmpty()==false){
+                        this.ruta(nodos2[indice2], Destino);
+                    }
                 } else {
                     // Aquí debemos ver si no hay otro hilo que quiera pasar por el mismo nodo
 
                     // Si lo hay, entonces debemos esperar a que termine
                     this.nodos2[indice2].setEnUso(false);
                     this.ruta(nodos2[indice2], Destino);
-                    this.borraRecorrido();
 
                 }
 
@@ -225,8 +262,13 @@ public class Conexion extends Thread implements Runnable {
                 control.rutaSalto(indice1, indice2, "derecha", this);
 
                 this.nodos2[indice2].setEnUso(false);
+                HaySalto = true;
+                this.indexSaltoInicio = indice1;
+                this.indexSaltoFinal = indice2;
+                this.LadoSalto = "derecha";
                 this.ruta(nodos2[indice2], Destino);
-                this.borraRecorrido();
+                // Metodo que borra salto
+
                 this.Cubo = "derecha";
             }
 
@@ -234,6 +276,7 @@ public class Conexion extends Thread implements Runnable {
             this.Cubo = "izquierda";
             op.setNodos(nodos1);
             int indice2 = direccion(Origen, Destino, op);
+            //this.nodos1[indice2].setEnUso(false);
 
             while (nodos1[indice2].isEnUso()) {
                 try {
@@ -249,13 +292,17 @@ public class Conexion extends Thread implements Runnable {
                 if (nodos1[indice2].equals(Destino)) {
                     this.setRuta(indice1, indice2);
                     control.RutaMismoCubo(cubo);
+                    this.fin = true;
+                    if(this.recorrido.isEmpty()==false){
+                        this.ruta(nodos1[indice2], Destino);
+                    }
+                    
                 } else {
                     this.setRuta(indice1, indice2);
                     control.RutaMismoCubo(cubo);
 
                     this.nodos1[indice2].setEnUso(false);
                     this.ruta(nodos1[indice2], Destino);
-                    this.borraRecorrido();
 
                 }
             } else {
@@ -264,13 +311,22 @@ public class Conexion extends Thread implements Runnable {
                 control.rutaSalto(indice1, indice2, "izquierda", this);
                 this.Cubo = "izquierda";
 
+                HaySalto = true;
+                this.indexSaltoInicio = indice1;
+                this.indexSaltoFinal = indice2;
+                this.LadoSalto = "izquierda";
                 this.nodos1[indice2].setEnUso(false);
                 this.ruta(nodos1[indice2], Destino);
-                this.borraRecorrido();
 
             }
 
         }
+    }
+
+    private void borraSalto(int indice1, int indice2, String string, Conexion conexion) {
+
+        control.borraSalto(indice1, indice2, string, conexion);
+
     }
 
     public List<Integer> getRecorrido() {

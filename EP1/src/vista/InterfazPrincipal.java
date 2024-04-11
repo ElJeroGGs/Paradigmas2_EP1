@@ -39,8 +39,8 @@ public class InterfazPrincipal extends JFrame {
     public void setPanel1(PanelHipercubo panel1) {
         this.panel1 = panel1;
     }
+
     public void salto(int indice1,int indice2, String lado, Conexion hilo){
-    System.out.println("Salto en el nodo: "+indice1);
     Color col = hilo.getColor();
     //Aqui debo pintar un arco desde el nodo origen hasta su contraparte)
     switch(lado){
@@ -64,5 +64,26 @@ public class InterfazPrincipal extends JFrame {
 
     public void setPanel2(PanelHipercubo panel2) {
         this.panel2 = panel2;
+    }
+
+    public void BorraSalto(int indice1, int indice2, String string, Conexion hilo) {
+
+        Color col = hilo.getColor();
+
+    switch(string){
+        case "derecha":
+            System.out.println("Salto a la derecha");
+        panel1.BorraSaltoInicio(indice1, col);
+        panel2.BorraSaltoAterrizaje(indice2, col);
+        
+        
+            break;
+        case "izquierda":
+            System.out.println("Salto a la izquierda");
+            panel2.BorraSaltoInicio(indice1, col);
+            panel1.BorraSaltoAterrizaje(indice2, col);
+            
+            break;
+    }
     }
 }

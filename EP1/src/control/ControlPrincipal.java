@@ -105,6 +105,19 @@ public class ControlPrincipal {
         }
     }
 
+    public void borraSalto(int indice1, int indice2, String lado, Conexion Hilo){
+
+        switch (lado) {
+            case "derecha":
+                Interfaz.BorraSalto(indice1, indice2, "derecha", Hilo);
+                break;
+            case "izquierda":
+                Interfaz.BorraSalto(indice1, indice2, "izquierda", Hilo);
+                break;
+        }
+
+
+    }
     public void ruta(Nodo Origen, Nodo Destino, int ruta) {
         // Funciona si ambos nodos pertenecen al mismo cubo
         Matriz op = new Matriz();
