@@ -67,22 +67,19 @@ public class Conexion extends Thread implements Runnable {
             HaySalto = false;
         } else {
             this.recorrido.removeFirst();
-
         }
         
 
         if (fin == true) {
-
-            try {
-                Thread.sleep(1000);
-            } catch (Exception e) {
-            }
-
+            control.renovar();
             while (this.recorrido.isEmpty() == false) {
+                try {
+                    Thread.sleep(1000);
+                } catch (Exception e) {
+                }
                 this.borraRecorrido();
-                control.renovar();
+               
             }
-
         }
         control.renovar();
 
