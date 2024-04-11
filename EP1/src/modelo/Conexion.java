@@ -179,7 +179,7 @@ public class Conexion extends Thread implements Runnable {
         }
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(10000);
         } catch (Exception e) {
             System.out.println("Error en el hilo");
         }

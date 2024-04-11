@@ -21,8 +21,6 @@ import modelo.Salto;
 public class PanelHipercubo extends JPanel {
     private Nodo[] nodoscubo;
     private ControlPanelHIpercubo control;
-    private List<Integer> recorrido1;
-    private List<Integer> recorrido2;
     private List<Salto> SaltosInicio;
     private List<Salto> SaltosAterrizaje;
     
@@ -44,13 +42,13 @@ public class PanelHipercubo extends JPanel {
         this.setLayout(null);
         for (int i = 0; i < nodos.length; i++) {
 
-            etiquetas[i] = new JLabel(nodos[i].toString());
+            etiquetas[i] = new JLabel(Integer.toString(nodos[i].getValorDecimal()));
             Font fuente = new Font("Arial", Font.BOLD, 22);
             etiquetas[i].setFont(fuente);
-            etiquetas[i].setOpaque(true);
+            //etiquetas[i].setOpaque(true);
             int[] coordenadas = this.nodoscubo[i].getCoordenadas();
             this.add(etiquetas[i]);
-            etiquetas[i].setBounds(coordenadas[0] - 50, coordenadas[1] + 20, 50, 20);
+            etiquetas[i].setBounds(coordenadas[0] - 30, coordenadas[1] + 15, 50, 20);
 
         }
     }
@@ -84,7 +82,8 @@ public class PanelHipercubo extends JPanel {
                 if (indices[j] != 0) {
                     int[] coordenadas2 = this.nodoscubo[indices[j]].getCoordenadas();
                     Graphics2D g2 = (Graphics2D) g;
-                    g2.setStroke(new BasicStroke(3)); // Set the thickness of the line
+                    g2.setColor(Color.GRAY);
+                    g2.setStroke(new BasicStroke(7)); // Set the thickness of the line
                     g2.drawLine(coordenadas1[0], coordenadas1[1], coordenadas2[0], coordenadas2[1]);
                 }
             }
