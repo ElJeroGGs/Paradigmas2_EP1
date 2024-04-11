@@ -1,10 +1,14 @@
 package modelo;
 
+import java.util.concurrent.Semaphore;
+
 public class Nodo {
 
     private int[] coordenadas;
     private int[] valor;
     private boolean enUso = false;
+    private Semaphore semaforo = new Semaphore(1);
+
 
     public Nodo(int[] coordenadas, int[] valor) {
 
@@ -12,13 +16,22 @@ public class Nodo {
         this.valor = valor;
     }
 
-    public void setEnUso(boolean enUso) {
-        this.enUso = enUso;
+    
+    public void usarNodo() {
+        try {
+            semaforo.acquire();
+            enUso = true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    
+   public void liberarNodo() {
+        enUso = false;
+        semaforo.release();
     }
 
-    public boolean isEnUso() {
-        return enUso;
-    }
+   
 
     public int[] getCoordenadas() {
         return coordenadas.clone();

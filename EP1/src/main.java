@@ -54,16 +54,18 @@ public class main {
         Control.setInterfaz(vista);
         Control.Comienzo();
 
+        
+        Conexion ruta2 = new Conexion(2,"rojo");
+        Control.nuevaRuta(ruta2);
+        ruta2.setOrigen(nodo0);
+        ruta2.setDestino(nodo4);
+
         Conexion ruta1 = new Conexion(1, "azul");
         Control.nuevaRuta(ruta1);
-        ruta1.setOrigen(nodo4);
-        ruta1.setDestino(nodo15);
+        ruta1.setOrigen(nodo5);
+        ruta1.setDestino(nodo4);
 
-        //Conexion ruta2 = new Conexion(2,"rojo");
-        //Control.nuevaRuta(ruta2);
-        //ruta2.setOrigen(nodo9);
-        //ruta2.setDestino(nodo3);
-
+       
         // ruta2.ruta(nodo5,nodo10);
         // Conexion ruta3 = new Conexion(3);
         // ruta3.setColorRuta("verde");
