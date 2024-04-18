@@ -19,9 +19,18 @@ public class ControlPrincipal {
     Nodo[] nodos1;
     Nodo[] nodos2;
     private Conexion hilo;
+    private boolean cambiodireccion = false;
 
     public void setInterfaz(InterfazPrincipal interfaz) {
         Interfaz = interfaz;
+    }
+
+    public  void setCambioDireccion(boolean cambio) {
+        this.cambiodireccion = cambio;
+    }
+
+    public synchronized boolean getCambioDireccion() {
+        return this.cambiodireccion;
     }
 
     public void setHP1(PanelHipercubo panel) {

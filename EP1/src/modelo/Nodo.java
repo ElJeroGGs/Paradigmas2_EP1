@@ -1,5 +1,6 @@
 package modelo;
 
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
@@ -28,7 +29,9 @@ public class Nodo {
         synchronized(this) {
             while (enUso && (hiloEnUso != Thread.currentThread() || hiloEnUso==null)) {
                 try {
-                    wait(1100); // Espera 3 segundos
+                    Random rand = new Random();
+                    int randomNum = rand.nextInt((2001)) + 1000; // Genera un número aleatorio entre 1000 y 2000 (1 y 2 segundos)
+                    wait(randomNum); 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     System.out.println("prueba");
@@ -44,7 +47,10 @@ public class Nodo {
                 }
             }
             enUso = true;
-                hiloEnUso = Thread.currentThread();
+            if(hiloEnUso == null){
+                
+            hiloEnUso = Thread.currentThread();
+            }
         }
     }
     

@@ -77,13 +77,17 @@ public class Conexion extends Thread implements Runnable {
                 } else if (nodos2 != null && !recorrido.isEmpty()) {
                     nodos2[this.recorrido.get(0)].liberarNodo();
                 }
+                //Borra el primero de recorrido
                 if (!recorrido.isEmpty()) {
                     this.recorrido.removeFirst();
+                }else{
+                    this.fin=false;
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
         control.renovar();
     }
 
@@ -118,7 +122,7 @@ public class Conexion extends Thread implements Runnable {
     }
 
     // Metodo que define la ruta de la conexion
-    public void setRuta(int indice1, int indice2) {
+    public synchronized void setRuta(int indice1, int indice2) {
 
         if (this.recorrido == null) {
             recorrido = new ArrayList<>();
@@ -137,10 +141,8 @@ public class Conexion extends Thread implements Runnable {
 
     }
 
-    public int direccion(Nodo Origen, Nodo Destino, Matriz op, int nodos) {
+    public synchronized int direccion(Nodo Origen, Nodo Destino, Matriz op, int nodos) {
 
-        if(nodos==1){
-        }
 
         int indice = -1;
         // Calcula el tag
@@ -153,9 +155,36 @@ public class Conexion extends Thread implements Runnable {
                 indice = i;
             }
         }
-        Nodo direcciontag = op.nodos[indice];
+        
 
-        if (direcciontag.getTagSalto() == true) {
+//Aqui ya habra obtenido un indice
+//Comprobamos que no haya bloqueo y si lo hay vuelve a correr el metodo
+
+    if(nodos==1){
+
+        nodos1[indice].usarNodo();
+        if(nodos1[indice].getTagSalto()){
+            Nodo direcciontag = op.nodos[indice];
+            if (direcciontag.getTagSalto() == true  && control.getCambioDireccion()==false) {
+                control.setCambioDireccion(true);
+                direccion = op.DireccionSalto(Origen, tag);
+                for (int k = 0; k < op.nodos.length; k++) {
+                    if (Arrays.equals(op.nodos[k].getValor(), direccion)) {
+                        indice = k;
+                    }
+                }
+            
+            }
+        }
+
+            
+    }else{
+
+        nodos2[indice].usarNodo();
+       if(nodos2[indice].getTagSalto()){
+        Nodo direcciontag = op.nodos[indice];
+        if (direcciontag.getTagSalto() == true && control.getCambioDireccion()==false) {
+            control.setCambioDireccion(true);
             direccion = op.DireccionSalto(Origen, tag);
             for (int k = 0; k < op.nodos.length; k++) {
                 if (Arrays.equals(op.nodos[k].getValor(), direccion)) {
@@ -164,23 +193,6 @@ public class Conexion extends Thread implements Runnable {
             }
         
         }
-    
-//Aqui ya habra obtenido un indice
-//Comprobamos que no haya bloqueo y si lo hay vuelve a correr el metodo
-
-    if(nodos==1){
-
-        nodos1[indice].usarNodo();
-        if(nodos1[indice].getTagSalto()){
-            direccion(Origen, Destino, op, nodos);
-        }
-
-            
-    }else{
-
-        nodos2[indice].usarNodo();
-       if(nodos2[indice].getTagSalto()){
-        direccion(Origen, Destino, op, nodos);
        }
     }
 
@@ -255,7 +267,9 @@ public class Conexion extends Thread implements Runnable {
             if (op.PerteneceMismoCubo(Origen, Destino)) {
                 // Pertenecen al mismo cubo 2
                 int cubo = 2;
-                this.setRuta(indice1, indice2);
+                if(this.fin==false){
+                    this.setRuta(indice1, indice2);
+                }
                 control.RutaMismoCubo(cubo);
 
                 if (nodos2[indice2].equals(Destino)) {
@@ -324,7 +338,10 @@ public class Conexion extends Thread implements Runnable {
             if (op.PerteneceMismoCubo(Origen, Destino)) {
 
                 int cubo = 1;
-                this.setRuta(indice1, indice2);
+
+                if(this.fin==false){
+                    this.setRuta(indice1, indice2);
+                }
                 control.RutaMismoCubo(cubo);
                // this.nodos1[indice2].liberarNodo();
 
