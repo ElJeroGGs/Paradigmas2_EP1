@@ -61,7 +61,7 @@ public class Conexion extends Thread implements Runnable {
         this.nodos2 = nodos2;
     }
 
-    public void borraRecorrido() {
+    public synchronized void borraRecorrido() {
         try {
             control.renovar();
             if (HaySalto == true) {
@@ -87,9 +87,7 @@ public class Conexion extends Thread implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(control.getCambioDireccion()==true && this.fin==true){
-            control.setCambioDireccion(false);
-        }
+       
         control.renovar();
     }
 
@@ -198,7 +196,9 @@ public class Conexion extends Thread implements Runnable {
        }
     }
 
-
+    if(control.getCambioDireccion()==true && this.fin==true){
+        control.setCambioDireccion(false);
+    }
         return indice;
 
     }
