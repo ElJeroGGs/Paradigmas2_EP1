@@ -1,6 +1,10 @@
 package modelo;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.ReentrantLock;
+
+import javax.swing.text.html.HTML.Tag;
 
 public class Nodo {
 
@@ -9,6 +13,8 @@ public class Nodo {
     private boolean enUso = false;
     private Thread hiloEnUso = null;
     private Semaphore semaforo = new Semaphore(1);
+    private ReentrantLock lock = new ReentrantLock();
+    private boolean TagSalto = false;
 
 
     public Nodo(int[] coordenadas, int[] valor) {
@@ -18,28 +24,41 @@ public class Nodo {
     }
 
     
-    public synchronized void usarNodo() {
+    public void usarNodo() {
+        synchronized(this) {
             while (enUso && (hiloEnUso != Thread.currentThread() || hiloEnUso==null)) {
                 try {
-                    wait();
+                    wait(1100); // Espera 3 segundos
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     System.out.println("prueba");
                 }
+                if (enUso && (hiloEnUso != Thread.currentThread() || hiloEnUso==null)) {
+                    // Si después de 3 segundos el nodo todavía está en uso, haz otra cosa
+                    // Aquí puedes poner el código para lo que quieras que haga
+                    //Aqui que le avise al codigo que se salte haga uso del metodo DirecciónSalto
+                
+                    TagSalto = true;
+                    notifyAll();
+                    break;
+                }
             }
-        
-        enUso = true;
-        hiloEnUso = Thread.currentThread();
+            enUso = true;
+                hiloEnUso = Thread.currentThread();
+        }
     }
     
-   public synchronized void liberarNodo() {
-    enUso = false;
-    hiloEnUso = null;
-    notifyAll();
-    semaforo.release();
+    public synchronized void liberarNodo() {
+        enUso = false;
+        hiloEnUso = null;
+        TagSalto = false;
+        notifyAll();
+        
     }
-
    
+    public boolean getTagSalto(){
+        return TagSalto;
+    }
 
     public int[] getCoordenadas() {
         return coordenadas.clone();

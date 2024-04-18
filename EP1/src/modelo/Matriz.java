@@ -54,6 +54,32 @@ return Destino;
 
 }
 
+public int[] DireccionSalto(Nodo nodo,int[] tag){
+    int[] Destino = nodo.getValor();
+    int cuenta = 0;
+    //Aqui hace el barrido de izquierda a derecha, pero se salta el primer 1 que encuentre
+    for (int i = 0; i<4; i++){ 
+    
+        if(tag[i]!=0){
+
+            if (cuenta==1){
+                if(Destino[i]==0){
+                    Destino[i] = 1;
+                    }else{
+                    Destino[i] = 0; 
+        
+    }
+    break;    
+}else{
+        cuenta++;
+    }
+    
+}
+}
+    return Destino;
+    
+    }
+
 public int getIndice(Nodo nodo){
 int indice=-1;
     for(int i = 0; i<nodos.length; i++){

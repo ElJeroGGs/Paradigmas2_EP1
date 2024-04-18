@@ -61,38 +61,30 @@ public class Conexion extends Thread implements Runnable {
         this.nodos2 = nodos2;
     }
 
-    public synchronized void borraRecorrido() {
-        control.renovar();
-        if (HaySalto == true) {
-            int indice1 = this.indexSaltoInicio;
-            int indice2 = this.indexSaltoFinal;
-            String lado = this.LadoSalto;
-            this.borraSalto(indice1, indice2, lado, this);
-            HaySalto = false;
-        } else {
-            
-            //Liberar el nodo de origen
-            if (this.nodosOrigen == 1) {
-                nodos1[this.recorrido.get(0)].liberarNodo();
-            } else {
-                nodos2[this.recorrido.get(0)].liberarNodo();
-            }
-            this.recorrido.removeFirst();
-        }
-
-        if (fin == true) {
+    public void borraRecorrido() {
+        try {
             control.renovar();
-            while (this.recorrido.isEmpty() == false) {
-                try {
-                    Thread.sleep(1000);
-                } catch (Exception e) {
+            if (HaySalto == true) {
+                int indice1 = this.indexSaltoInicio;
+                int indice2 = this.indexSaltoFinal;
+                String lado = this.LadoSalto;
+                this.borraSalto(indice1, indice2, lado, this);
+                HaySalto = false;
+            } else {
+                //Liberar el nodo de origen
+                if (this.nodosOrigen == 1 && nodos1 != null && !recorrido.isEmpty()) {
+                    nodos1[this.recorrido.get(0)].liberarNodo();
+                } else if (nodos2 != null && !recorrido.isEmpty()) {
+                    nodos2[this.recorrido.get(0)].liberarNodo();
                 }
-                this.borraRecorrido();
-
+                if (!recorrido.isEmpty()) {
+                    this.recorrido.removeFirst();
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         control.renovar();
-
     }
 
     public void setColorRuta(String color) {
@@ -145,35 +137,70 @@ public class Conexion extends Thread implements Runnable {
 
     }
 
-    public int direccion(Nodo Origen, Nodo Destino, Matriz op) {
+    public int direccion(Nodo Origen, Nodo Destino, Matriz op, int nodos) {
+
+        if(nodos==1){
+        }
 
         int indice = -1;
         // Calcula el tag
         int[] tag = op.xor(Origen, Destino);
         // Calcula la direccion que va a tomar para llegar al destino
         int[] direccion = op.Direccion(Origen, tag);
+        //Busca el indice del nodo que tiene la direccion
         for (int i = 0; i < op.nodos.length; i++) {
             if (Arrays.equals(op.nodos[i].getValor(), direccion)) {
                 indice = i;
             }
         }
+        Nodo direcciontag = op.nodos[indice];
+
+        if (direcciontag.getTagSalto() == true) {
+            direccion = op.DireccionSalto(Origen, tag);
+            for (int k = 0; k < op.nodos.length; k++) {
+                if (Arrays.equals(op.nodos[k].getValor(), direccion)) {
+                    indice = k;
+                }
+            }
+        
+        }
+    
+//Aqui ya habra obtenido un indice
+//Comprobamos que no haya bloqueo y si lo hay vuelve a correr el metodo
+
+    if(nodos==1){
+
+        nodos1[indice].usarNodo();
+        if(nodos1[indice].getTagSalto()){
+            direccion(Origen, Destino, op, nodos);
+        }
+
+            
+    }else{
+
+        nodos2[indice].usarNodo();
+       if(nodos2[indice].getTagSalto()){
+        direccion(Origen, Destino, op, nodos);
+       }
+    }
+
 
         return indice;
 
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
 
         this.ruta(this.Origen, this.Destino);
 
     }
 
-    public synchronized void ruta(Nodo Origen, Nodo Destino) {
+    public void ruta(Nodo Origen, Nodo Destino) {
 
         contador++;
 
-        if (contador > 2 ) {
+        if (contador > 2) {
             this.borraRecorrido();
         }
 
@@ -218,7 +245,8 @@ public class Conexion extends Thread implements Runnable {
         if (Destino.getValorDecimal() > 7) {
             this.Cubo = "derecha";
             op.setNodos(nodos2);
-            int indice2 = direccion(Origen, Destino, op);
+            //Obtiene el indice del nodo destino
+            int indice2 = direccion(Origen, Destino, op,2);
 
             //Intenta usar el nodo
             nodos2[indice2].usarNodo();
@@ -232,7 +260,7 @@ public class Conexion extends Thread implements Runnable {
 
                 if (nodos2[indice2].equals(Destino)) {
                     control.RutaMismoCubo(cubo);
-                    this.nodos2[indice2].liberarNodo();
+                    //this.nodos2[indice2].liberarNodo();
                     
                   /*   if (this.nodosOrigen == 1) {
                         nodos1[indice1].liberarNodo();
@@ -256,7 +284,7 @@ public class Conexion extends Thread implements Runnable {
                     // Aquí debemos ver si no hay otro hilo que quiera pasar por el mismo nodo
                    
                     // Si lo hay, entonces debemos esperar a que termine
-                    this.nodos2[indice2].liberarNodo();
+                    //this.nodos2[indice2].liberarNodo();
                     this.ruta(nodos2[indice2], Destino);
 
                 }
@@ -280,7 +308,7 @@ public class Conexion extends Thread implements Runnable {
                     nodos2[indice1].liberarNodo();
                 }*/
 
-                this.nodos2[indice2].liberarNodo();
+                //this.nodos2[indice2].liberarNodo();
 
                 this.ruta(nodos2[indice2], Destino);
 
@@ -289,21 +317,20 @@ public class Conexion extends Thread implements Runnable {
         } else {
             this.Cubo = "izquierda";
             op.setNodos(nodos1);
-            int indice2 = direccion(Origen, Destino, op);
-
-            
+            int indice2 = direccion(Origen, Destino, op,1);
             nodos1[indice2].usarNodo();
+
             // Condicion en caso de que haya un "salto"
             if (op.PerteneceMismoCubo(Origen, Destino)) {
 
                 int cubo = 1;
                 this.setRuta(indice1, indice2);
                 control.RutaMismoCubo(cubo);
-                this.nodos1[indice2].liberarNodo();
+               // this.nodos1[indice2].liberarNodo();
 
                 if (nodos1[indice2].equals(Destino)) {
                     control.RutaMismoCubo(cubo);
-                    this.nodos1[indice2].liberarNodo();
+                    //this.nodos1[indice2].liberarNodo();
                     
                    /*  if (this.nodosOrigen == 1) {
                         nodos1[indice1].liberarNodo();
@@ -325,14 +352,14 @@ public class Conexion extends Thread implements Runnable {
                     } else {
                         nodos2[indice1].liberarNodo();
                     }/* */
-                    this.nodos1[indice2].liberarNodo();
+                    //this.nodos1[indice2].liberarNodo();
                     this.ruta(nodos1[indice2], Destino);
 
                 }
             } else {
                 // Se pinta un salto
                 // Creo que con un indice es suficiente (Origen)
-                this.nodos1[indice2].liberarNodo();
+                //this.nodos1[indice2].liberarNodo();
                 control.rutaSalto(indice1, indice2, "izquierda", this);
                 this.Cubo = "izquierda";
 
@@ -347,7 +374,7 @@ public class Conexion extends Thread implements Runnable {
                     nodos2[indice1].liberarNodo();
                 }*/
                 
-                this.nodos1[indice2].liberarNodo();
+                //this.nodos1[indice2].liberarNodo();
                 this.ruta(nodos1[indice2], Destino);
 
             }
