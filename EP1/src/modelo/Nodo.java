@@ -7,6 +7,7 @@ public class Nodo {
     private int[] coordenadas;
     private int[] valor;
     private boolean enUso = false;
+    private Thread hiloEnUso = null;
     private Semaphore semaforo = new Semaphore(1);
 
 
@@ -17,18 +18,25 @@ public class Nodo {
     }
 
     
-    public void usarNodo() {
-        try {
-            semaforo.acquire();
-            enUso = true;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public synchronized void usarNodo() {
+            while (enUso && (hiloEnUso != Thread.currentThread() || hiloEnUso==null)) {
+                try {
+                    wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    System.out.println("prueba");
+                }
+            }
+        
+        enUso = true;
+        hiloEnUso = Thread.currentThread();
     }
     
-   public void liberarNodo() {
-        enUso = false;
-        semaforo.release();
+   public synchronized void liberarNodo() {
+    enUso = false;
+    hiloEnUso = null;
+    notifyAll();
+    semaforo.release();
     }
 
    

@@ -61,8 +61,8 @@ public class Conexion extends Thread implements Runnable {
         this.nodos2 = nodos2;
     }
 
-    public void borraRecorrido() {
-
+    public synchronized void borraRecorrido() {
+        control.renovar();
         if (HaySalto == true) {
             int indice1 = this.indexSaltoInicio;
             int indice2 = this.indexSaltoFinal;
@@ -70,6 +70,13 @@ public class Conexion extends Thread implements Runnable {
             this.borraSalto(indice1, indice2, lado, this);
             HaySalto = false;
         } else {
+            
+            //Liberar el nodo de origen
+            if (this.nodosOrigen == 1) {
+                nodos1[this.recorrido.get(0)].liberarNodo();
+            } else {
+                nodos2[this.recorrido.get(0)].liberarNodo();
+            }
             this.recorrido.removeFirst();
         }
 
@@ -162,11 +169,11 @@ public class Conexion extends Thread implements Runnable {
 
     }
 
-    public void ruta(Nodo Origen, Nodo Destino) {
+    public synchronized void ruta(Nodo Origen, Nodo Destino) {
 
         contador++;
 
-        if (contador > 2) {
+        if (contador > 2 ) {
             this.borraRecorrido();
         }
 
@@ -179,7 +186,7 @@ public class Conexion extends Thread implements Runnable {
         }
 
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (Exception e) {
             System.out.println("Error en el hilo");
         }
@@ -227,11 +234,11 @@ public class Conexion extends Thread implements Runnable {
                     control.RutaMismoCubo(cubo);
                     this.nodos2[indice2].liberarNodo();
                     
-                    if (this.nodosOrigen == 1) {
+                  /*   if (this.nodosOrigen == 1) {
                         nodos1[indice1].liberarNodo();
                     } else {
                         nodos2[indice1].liberarNodo();
-                    }
+                    }*/
                     this.fin = true;
                     
 
@@ -241,11 +248,11 @@ public class Conexion extends Thread implements Runnable {
                      
                     }
                 } else {
-                    if (this.nodosOrigen == 1) {
+                    /*if (this.nodosOrigen == 1) {
                         nodos1[indice1].liberarNodo();
                     } else {
                         nodos2[indice1].liberarNodo();
-                    }
+                    }*/
                     // Aquí debemos ver si no hay otro hilo que quiera pasar por el mismo nodo
                    
                     // Si lo hay, entonces debemos esperar a que termine
@@ -267,11 +274,11 @@ public class Conexion extends Thread implements Runnable {
                 this.indexSaltoFinal = indice2;
                 this.LadoSalto = "derecha";
 
-                if (this.nodosOrigen == 1) {
+               /*  if (this.nodosOrigen == 1) {
                     nodos1[indice1].liberarNodo();
                 } else {
                     nodos2[indice1].liberarNodo();
-                }
+                }*/
 
                 this.nodos2[indice2].liberarNodo();
 
@@ -298,12 +305,12 @@ public class Conexion extends Thread implements Runnable {
                     control.RutaMismoCubo(cubo);
                     this.nodos1[indice2].liberarNodo();
                     
-                    if (this.nodosOrigen == 1) {
+                   /*  if (this.nodosOrigen == 1) {
                         nodos1[indice1].liberarNodo();
                     } else {
                         nodos2[indice1].liberarNodo();
                     }
-
+*/
                     this.fin = true;
                     if (this.recorrido.isEmpty() == false) {
                         this.ruta(nodos1[indice2], Destino);
@@ -313,11 +320,11 @@ public class Conexion extends Thread implements Runnable {
                     
                   
                    
-                if (this.nodosOrigen == 1) {
+                /*if (this.nodosOrigen == 1) {
                         nodos1[indice1].liberarNodo();
                     } else {
                         nodos2[indice1].liberarNodo();
-                    }
+                    }/* */
                     this.nodos1[indice2].liberarNodo();
                     this.ruta(nodos1[indice2], Destino);
 
@@ -334,11 +341,11 @@ public class Conexion extends Thread implements Runnable {
                 this.indexSaltoFinal = indice2;
                 this.LadoSalto = "izquierda";
                 
-                if (this.nodosOrigen == 1) {
+                /*if (this.nodosOrigen == 1) {
                     nodos1[indice1].liberarNodo();
                 } else {
                     nodos2[indice1].liberarNodo();
-                }
+                }*/
                 
                 this.nodos1[indice2].liberarNodo();
                 this.ruta(nodos1[indice2], Destino);

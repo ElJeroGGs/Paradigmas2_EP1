@@ -42,7 +42,7 @@ public class PanelHipercubo extends JPanel {
         this.setLayout(null);
         for (int i = 0; i < nodos.length; i++) {
 
-            etiquetas[i] = new JLabel(Integer.toString(nodos[i].getValorDecimal()));
+            etiquetas[i] = new JLabel(nodos[i].toString());
             Font fuente = new Font("Arial", Font.BOLD, 22);
             etiquetas[i].setFont(fuente);
             //etiquetas[i].setOpaque(true);

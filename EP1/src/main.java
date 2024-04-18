@@ -54,36 +54,15 @@ public class main {
         Control.setInterfaz(vista);
         Control.Comienzo();
 
-        
-        Conexion ruta2 = new Conexion(10,"rojo");
+        Conexion ruta1 = new Conexion(1, "azul");
+        Control.nuevaRuta(ruta1);
+        ruta1.setOrigen(nodo2);
+        ruta1.setDestino(nodo5);
+
+        Conexion ruta2 = new Conexion(2, "naranja");
         Control.nuevaRuta(ruta2);
         ruta2.setOrigen(nodo0);
-        ruta2.setDestino(nodo4);
-
-        Conexion ruta1 = new Conexion(2, "azul");
-        Control.nuevaRuta(ruta1);
-        ruta1.setOrigen(nodo5);
-        ruta1.setDestino(nodo4);
-
-        Conexion ruta3 = new Conexion(3, "verde");
-        Control.nuevaRuta(ruta3);
-        ruta3.setOrigen(nodo12);
-        ruta3.setDestino(nodo6);
-
-       
-        // ruta2.ruta(nodo5,nodo10);
-        // Conexion ruta3 = new Conexion(3);
-        // ruta3.setColorRuta("verde");
-        // Control.nuevaRuta(ruta3);
-        // ruta3.ruta(nodo6,nodo11);
-        // Conexion ruta4 = new Conexion(4);
-        // ruta4.setColorRuta("amarillo");
-        // Control.nuevaRuta(ruta4);
-        // ruta4.ruta(nodo7,nodo12);
-        // Conexion ruta5 = new Conexion(5);
-        // ruta5.setColorRuta("naranja");
-        // Control.nuevaRuta(ruta5);
-        // ruta5.ruta(nodo10,nodo1);
+        ruta2.setDestino(nodo6);
 
     }
 }
