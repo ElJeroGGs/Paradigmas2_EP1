@@ -165,7 +165,7 @@ public class Conexion extends Thread implements Runnable {
         nodos1[indice].usarNodo();
         if(nodos1[indice].getTagSalto()){
             Nodo direcciontag = op.nodos[indice];
-            if (direcciontag.getTagSalto() == true  && control.getCambioDireccion()==false) {
+            if (direcciontag.getTagSalto() == true  && control.getCambioDireccion()==false && this.fin==false) {
                 control.setCambioDireccion(true);
                 direccion = op.DireccionSalto(Origen, tag);
                 for (int k = 0; k < op.nodos.length; k++) {
@@ -183,7 +183,7 @@ public class Conexion extends Thread implements Runnable {
         nodos2[indice].usarNodo();
        if(nodos2[indice].getTagSalto()){
         Nodo direcciontag = op.nodos[indice];
-        if (direcciontag.getTagSalto() == true && control.getCambioDireccion()==false) {
+        if (direcciontag.getTagSalto() == true && control.getCambioDireccion()==false && this.fin==false) {
             control.setCambioDireccion(true);
             direccion = op.DireccionSalto(Origen, tag);
             for (int k = 0; k < op.nodos.length; k++) {

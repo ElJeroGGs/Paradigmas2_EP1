@@ -62,7 +62,7 @@ public class main {
         Conexion ruta2 = new Conexion(2, "naranja");
         Control.nuevaRuta(ruta2);
         ruta2.setOrigen(nodo0);
-        ruta2.setDestino(nodo7);
+        ruta2.setDestino(nodo6);
 
     }
 }
