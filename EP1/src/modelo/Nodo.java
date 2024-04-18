@@ -26,17 +26,19 @@ public class Nodo {
 
     
     public void usarNodo() {
+
+        Conexion con = (Conexion) hiloEnUso;
         synchronized(this) {
             while (enUso && (hiloEnUso != Thread.currentThread() || hiloEnUso==null)) {
                 try {
                     Random rand = new Random();
-                    int randomNum = rand.nextInt((1001)) + 1000; // Genera un número aleatorio entre 1000 y 5000 (1 y 5 segundos)
+                    int randomNum = rand.nextInt((1501)) + 500; // Genera un número aleatorio entre 1000 y 5000 (1 y 5 segundos)
                     wait(randomNum); 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     System.out.println("prueba");
                 }
-                if (enUso && (hiloEnUso != Thread.currentThread() || hiloEnUso==null)) {
+                if (enUso && (hiloEnUso != Thread.currentThread() || hiloEnUso==null)&& con.getCambioDireccion()==false) {
                     // Si después de 3 segundos el nodo todavía está en uso, haz otra cosa
                     // Aquí puedes poner el código para lo que quieras que haga
                     //Aqui que le avise al codigo que se salte haga uso del metodo DirecciónSalto

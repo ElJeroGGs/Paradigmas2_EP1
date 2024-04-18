@@ -196,7 +196,7 @@ public class Conexion extends Thread implements Runnable {
        }
     }
 
-    if(control.getCambioDireccion()==true && this.fin==true){
+    if(this.fin==true){
         control.setCambioDireccion(false);
     }
         return indice;
@@ -417,6 +417,10 @@ public class Conexion extends Thread implements Runnable {
 
     public int getIde() {
         return this.id;
+    }
+    public boolean getCambioDireccion(){
+
+        return control.getCambioDireccion();
     }
 
 }
