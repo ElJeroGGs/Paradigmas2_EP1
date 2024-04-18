@@ -25,7 +25,7 @@ public class ControlPrincipal {
         Interfaz = interfaz;
     }
 
-    public  void setCambioDireccion(boolean cambio) {
+    public synchronized void setCambioDireccion(boolean cambio) {
         this.cambiodireccion = cambio;
     }
 

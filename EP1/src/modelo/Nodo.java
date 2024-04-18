@@ -30,7 +30,7 @@ public class Nodo {
             while (enUso && (hiloEnUso != Thread.currentThread() || hiloEnUso==null)) {
                 try {
                     Random rand = new Random();
-                    int randomNum = rand.nextInt((2001)) + 1000; // Genera un número aleatorio entre 1000 y 2000 (1 y 2 segundos)
+                    int randomNum = rand.nextInt((1001)) + 1000; // Genera un número aleatorio entre 1000 y 5000 (1 y 5 segundos)
                     wait(randomNum); 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
