@@ -87,7 +87,7 @@ public class Conexion extends Thread implements Runnable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(control.getCambioDireccion()==true){
+        if(control.getCambioDireccion()==true && this.fin==true){
             control.setCambioDireccion(false);
         }
         control.renovar();
